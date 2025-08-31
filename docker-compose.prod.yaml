@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nest-app:
+    depends_on:
+      - mongo-db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: championship-docker
+    container_name: championship-docker
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      MONGO_DB: ${MONGO_DB}
+      NAME_DB: ${NAME_DB}
+      PORT: ${PORT}
+
+  mongo-db:
+    image: mongo:6.0.26-jammy
+    container_name: mongo-championship
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: championship-db

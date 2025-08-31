@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  mongo-db:
+    image: mongo:6.0.26-jammy
+    container_name: mongo_db
+    restart: always
+    ports:
+      - 127.0.0.1:27017:27017
+    environment:
+      MONGODB_DATABASE: championship-db
+    volumes:
+      - ./mongo:/data/db

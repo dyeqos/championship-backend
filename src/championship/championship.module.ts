@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ChampionshipService } from './championship.service';
 import { ChampionshipController } from './championship.controller';
-import { MongooseModule } from '@nestjs/mongoose';
 import {
   Championship,
   ChampionshipSchema,
@@ -9,6 +10,7 @@ import {
 
 @Module({
   imports: [
+    ConfigModule,
     MongooseModule.forFeature([
       { name: Championship.name, schema: ChampionshipSchema },
     ]),
