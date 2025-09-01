@@ -15,7 +15,7 @@ export class Parameter extends Document {
   description: string;
 
   @StateColumn()
-  state: State;
+  aud_state: State;
 }
-
 export const ParameterSchema = SchemaFactory.createForClass(Parameter);
+ParameterSchema.index({ name: 1, aud_state: 1 });

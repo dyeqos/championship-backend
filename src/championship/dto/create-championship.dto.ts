@@ -1,23 +1,48 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  IsEnum,
+  IsMongoId,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Matches,
+} from 'class-validator';
 import { Gender } from '../enums/gender.enum';
+import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
+import { ChampionshipState } from '../enums/championshipState.enum';
 export class CreateChampionshipDto {
-  @IsNumber()
+  @IsMongoId()
   @IsNotEmpty()
-  name: number;
+  name: string;
 
   @IsNumber()
   @IsNotEmpty()
   gestion: number;
 
   @IsNumber()
-  @IsNotEmpty()
-  version: number;
+  @IsOptional()
+  version?: number;
 
-  @IsNumber()
+  @IsMongoId()
   @IsNotEmpty()
-  category: number;
+  category: string;
 
+  @IsNotEmpty()
   @IsEnum(Gender)
   gender: Gender;
+
+  @IsOptional()
+  @Matches(STRING_DATE_REGEX, {
+    message: 'Formato inválido, debe ser DD/MM/YYYY',
+  })
+  dateInit?: string;
+
+  @IsOptional()
+  @Matches(STRING_DATE_REGEX, {
+    message: 'Formato inválido, debe ser DD/MM/YYYY',
+  })
+  dateFinish?: string;
+
+  @IsOptional()
+  @IsEnum(ChampionshipState)
+  state?: ChampionshipState;
 }
