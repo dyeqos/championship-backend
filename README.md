@@ -6,20 +6,38 @@
 
 1. Clonar el repositorio
 2. Ejecutar
+
 ```
 yarn install
 ```
+
 3. Tener Nest CLI instalado
+
 ```
 npm i -g @nestjs/cli
 ```
 
 4. Levantar la base de datos
+
 ```
 docker-compose up -d
 ```
 
+# CREAR IMAGEN
+
+Build
+
+```
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+```
+
+Run
+
+```
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up
+```
 
 ## Stack usado
-* MongoDB
-* Nest
+
+- MongoDB
+- Nest

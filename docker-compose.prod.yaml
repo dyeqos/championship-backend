@@ -4,14 +4,14 @@ services:
   nest-app:
     depends_on:
       - mongo-db
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     image: championship-docker
     container_name: championship-docker
     restart: always # reiniciar el contenedor si se detiene
     ports:
-      - "${PORT}:${PORT}"
+      - '${PORT}:${PORT}'
     environment:
       MONGO_DB: ${MONGO_DB}
       NAME_DB: ${NAME_DB}
@@ -24,4 +24,8 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGODB_DATABASE: championship-db
+      MONGO_INITDB_DATABASE: championship-db
+      MONGO_INITDB_ROOT_USERNAME: dcalvi
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    volumes:
+      - ./mongo:/data/db
