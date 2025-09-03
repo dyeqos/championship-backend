@@ -26,6 +26,11 @@ export class ParametersController {
     return this.parametersService.findForName(name);
   }
 
+  @Get('all')
+  findAll() {
+    return this.parametersService.findAll();
+  }
+
   @Get('names')
   findNames() {
     return this.parametersService.findNames();

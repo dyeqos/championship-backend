@@ -1,14 +1,23 @@
-import { IsNumber, IsString, Min, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
+import { Name } from '../enums/name.enum';
 
 export class CreateParameterDto {
-  @IsString()
-  @MinLength(3)
-  name: string;
+  @IsNotEmpty()
+  @IsEnum(Name)
+  name: Name;
 
   @IsNumber()
   @Min(0)
   value: number;
 
+  @IsNotEmpty()
   @IsString()
   @MinLength(3)
   description: string;

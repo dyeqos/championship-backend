@@ -8,6 +8,8 @@ services:
     ports:
       - 127.0.0.1:27017:27017
     environment:
-      MONGODB_DATABASE: championship-db
+      MONGO_INITDB_DATABASE: championship-db
+      MONGO_INITDB_ROOT_USERNAME: dcalvi
+      MONGO_INITDB_ROOT_PASSWORD: 123456
     volumes:
       - ./mongo:/data/db

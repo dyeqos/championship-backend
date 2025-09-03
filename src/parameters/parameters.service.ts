@@ -16,13 +16,19 @@ export class ParametersService {
     private readonly parameterModel: Model<Parameter>,
   ) {}
 
-  create(createParameterDto: CreateParameterDto) {
+  async create(createParameterDto: CreateParameterDto) {
+    //Validar que el parametro no exista el mismo value en un dominio
+    const { name, value } = createParameterDto;
+    const param = await this.parameterModel.findOne({ name, value }).exec();
+    if (param) {
+      throw new BadRequestException('El parametro ya se encuentra registrado');
+    }
     const parameter = new this.parameterModel(createParameterDto);
     return parameter.save();
   }
 
-  findAll() {
-    return `This action returns all parameters`;
+  async findAll() {
+    return await this.parameterModel.find().exec();
   }
 
   findOne(id: number) {
