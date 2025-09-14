@@ -2,15 +2,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { StateColumn } from 'src/common/decorators/stateColumn.decorator';
 import { State } from 'src/common/enums/state.enum';
-import { Name } from '../enums/name.enum';
+import { ParamDomain } from '../enums/paramDomain.enum';
 
 @Schema({ timestamps: true })
 export class Parameter extends Document {
-  @Prop({ type: String, enum: Name, required: true, index: true })
-  name: Name;
+  @Prop({ type: String, enum: ParamDomain, required: true, index: true })
+  domain: ParamDomain;
 
   @Prop({ required: true })
-  value: number;
+  name: string;
 
   @Prop({ required: true })
   description: string;

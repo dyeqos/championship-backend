@@ -15,6 +15,7 @@ import { JoiValidationSchema } from './tools/validations/joi.validation';
     }),
     MongooseModule.forRoot(process.env.MONGO_DB!, {
       dbName: process.env.NAME_DB!,
+      authSource: process.env.SOURCE_DB!,
     }),
     ChampionshipModule,
     CommonModule,

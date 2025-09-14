@@ -3,4 +3,5 @@ export const JoiValidationSchema = Joi.object({
   MONGO_DB: Joi.required(),
   NAME_DB: Joi.required(),
   PORT: Joi.number().default(3000),
+  SOURCE_DB: Joi.string().default('admin'),
 });

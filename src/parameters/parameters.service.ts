@@ -7,7 +7,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Parameter } from './entities/parameter.entity';
 import { CreateParameterDto } from './dto/create-parameter.dto';
-import { UpdateParameterDto } from './dto/update-parameter.dto';
+import { DomainMapper } from './mappers/domain.mapper';
+import { ValueDescription } from './interfaces/value-description.interface';
 
 @Injectable()
 export class ParametersService {
@@ -18,8 +19,8 @@ export class ParametersService {
 
   async create(createParameterDto: CreateParameterDto) {
     //Validar que el parametro no exista el mismo value en un dominio
-    const { name, value } = createParameterDto;
-    const param = await this.parameterModel.findOne({ name, value }).exec();
+    const { name, domain } = createParameterDto;
+    const param = await this.parameterModel.findOne({ name, domain }).exec();
     if (param) {
       throw new BadRequestException('El parametro ya se encuentra registrado');
     }
@@ -46,15 +47,8 @@ export class ParametersService {
     return parameters;
   }
 
-  async findNames() {
-    return this.parameterModel.distinct('name').exec();
-  }
-
-  update(id: number, updateParameterDto: UpdateParameterDto) {
-    return `This action updates a #${id} parameter`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} parameter`;
+  async findDomains(): Promise<ValueDescription[]> {
+    const domains = await this.parameterModel.distinct('domain').exec();
+    return DomainMapper.domainToValueDescription(domains);
   }
 }

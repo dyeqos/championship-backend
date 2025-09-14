@@ -3,14 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
-  Delete,
+  // Delete,
   Query,
 } from '@nestjs/common';
 import { ParametersService } from './parameters.service';
 import { CreateParameterDto } from './dto/create-parameter.dto';
-import { UpdateParameterDto } from './dto/update-parameter.dto';
+// import { UpdateParameterDto } from './dto/update-parameter.dto';
 
 @Controller('parameters')
 export class ParametersController {
@@ -31,9 +31,9 @@ export class ParametersController {
     return this.parametersService.findAll();
   }
 
-  @Get('names')
-  findNames() {
-    return this.parametersService.findNames();
+  @Get('domains')
+  findDomains() {
+    return this.parametersService.findDomains();
   }
 
   @Get()
@@ -41,16 +41,16 @@ export class ParametersController {
     return this.parametersService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateParameterDto: UpdateParameterDto,
-  ) {
-    return this.parametersService.update(+id, updateParameterDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateParameterDto: UpdateParameterDto,
+  // ) {
+  //   return this.parametersService.update(+id, updateParameterDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.parametersService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.parametersService.remove(+id);
+  // }
 }

@@ -1,4 +1,4 @@
-export enum Name {
+export enum ParamDomain {
   CHAMPIONSHIP = 'CHAMPIONSHIP',
   CATEGORY = 'CATEGORY',
 }
