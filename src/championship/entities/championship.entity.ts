@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
 import { Gender } from '../enums/gender.enum';
 import { State } from 'src/common/enums/state.enum';
-import { StateColumn } from '../../common/decorators/stateColumn.decorator';
+import { StateColumn } from '../../common/decorators/state-column.decorator';
 import { Parameter } from 'src/parameters/entities/parameter.entity';
 import { ChampionshipState } from '../enums/championshipState.enum';
 import { STRING_DATE_REGEX } from 'src/constants/regex.constant';

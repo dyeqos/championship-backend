@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { ParamDomain } from '../enums/paramDomain.enum';
+import { ParamDomain } from '../enums/param-domain.enum';
 
 export class CreateParameterDto {
   @IsNotEmpty()

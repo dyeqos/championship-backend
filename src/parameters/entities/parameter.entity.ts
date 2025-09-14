@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { StateColumn } from 'src/common/decorators/stateColumn.decorator';
+import { StateColumn } from 'src/common/decorators/state-column.decorator';
 import { State } from 'src/common/enums/state.enum';
-import { ParamDomain } from '../enums/paramDomain.enum';
+import { ParamDomain } from '../enums/param-domain.enum';
 
 @Schema({ timestamps: true })
 export class Parameter extends Document {

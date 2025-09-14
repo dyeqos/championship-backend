@@ -1,4 +1,4 @@
-import { ParamDomain } from '../enums/paramDomain.enum';
+import { ParamDomain } from '../enums/param-domain.enum';
 import { ValueDescription } from '../interfaces/value-description.interface';
 
 export class DomainMapper {
