@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { ParamDomain } from '../enums/param-domain.enum';
 
 export class CreateParameterDto {
@@ -15,4 +21,8 @@ export class CreateParameterDto {
   @IsString()
   @MinLength(3)
   description: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  isActive: boolean;
 }

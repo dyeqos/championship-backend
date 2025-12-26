@@ -53,7 +53,9 @@ export class ParametersService {
   }
 
   async findDomains(): Promise<ValueDescription[]> {
-    const domains = await this.parameterModel.distinct('domain').exec();
+    const domains = await this.parameterModel
+      .distinct('domain', { isActive: true })
+      .exec();
     return DomainMapper.domainToValueDescription(domains);
   }
 }

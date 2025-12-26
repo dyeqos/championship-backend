@@ -8,6 +8,7 @@ export class ParameterMapper {
       domain: parameter.domain,
       id: parameter._id as string,
       name: parameter.name,
+      isActive: parameter.isActive ?? false,
     };
   }
 
