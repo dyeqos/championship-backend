@@ -28,7 +28,7 @@ docker-compose up -d
 Build
 
 ```
-docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build -d
 ```
 
 Run

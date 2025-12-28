@@ -9,8 +9,10 @@ import { Parameter } from './entities/parameter.entity';
 import { DomainMapper } from './mappers/domain.mapper';
 import { ParameterMapper } from './mappers/parameter.mapper';
 import { CreateParameterDto } from './dto/create-parameter.dto';
+import { UpdateParameterDto } from './dto/update-parameter.dto';
 import { ValueDescription } from './interfaces/value-description.interface';
 import { ParameterResponse } from './interfaces/parameter-response.interface';
+import { State } from 'src/common/enums/state.enum';
 
 @Injectable()
 export class ParametersService {
@@ -57,5 +59,21 @@ export class ParametersService {
       .distinct('domain', { isActive: true })
       .exec();
     return DomainMapper.domainToValueDescription(domains);
+  }
+
+  async remove(id: string): Promise<ParameterResponse> {
+    const deleted = await this.parameterModel.findByIdAndUpdate(id, {
+      aud_state: State.DELETE,
+    });
+    if (!deleted)
+      throw new NotFoundException(`Parameter with id ${id} not found`);
+    return ParameterMapper.paramToResponse(deleted);
+  }
+
+  async update(id: string, paramDto: UpdateParameterDto) {
+    const updated = await this.parameterModel.findByIdAndUpdate(id, paramDto);
+    if (!updated)
+      throw new NotFoundException(`Parameter with id ${id} not found`);
+    return ParameterMapper.paramToResponse(updated);
   }
 }
