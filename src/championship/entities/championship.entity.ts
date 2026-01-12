@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { Gender } from '../enums/gender.enum';
 import { State } from 'src/common/enums/state.enum';
 import { StateColumn } from '../../common/decorators/state-column.decorator';
 import { Parameter } from 'src/parameters/entities/parameter.entity';
 import { ChampionshipState } from '../enums/championshipState.enum';
 import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
+import { Gender } from 'src/common/enums/gender.enum';
 
 @Schema({ timestamps: true })
 export class Championship extends Document {
@@ -13,7 +13,7 @@ export class Championship extends Document {
   name: Parameter;
 
   @Prop({ required: true })
-  gestion: number;
+  management: number;
 
   @Prop({ required: true })
   version: number;
@@ -58,6 +58,7 @@ ChampionshipSchema.pre(
   /^find/,
   function (this: mongoose.Query<any, any>, next) {
     this.where({ aud_state: State.ACTIVE });
+    this.populate('name').populate('category');
     next();
   },
 );
@@ -65,6 +66,40 @@ ChampionshipSchema.pre(
 // Middleware para agregaciones
 ChampionshipSchema.pre('aggregate', function (next) {
   // Agrega un match al inicio del pipeline
-  this.pipeline().unshift({ $match: { aud_state: State.ACTIVE } });
+  this.pipeline().unshift(
+    { $match: { aud_state: State.ACTIVE } },
+
+    // Join con parameters para "name"
+    {
+      $lookup: {
+        from: 'parameters', // colección real
+        localField: 'name',
+        foreignField: '_id',
+        as: 'name',
+      },
+    },
+    {
+      $unwind: {
+        path: '$name',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+
+    // Join con parameters para "category"
+    {
+      $lookup: {
+        from: 'parameters',
+        localField: 'category',
+        foreignField: '_id',
+        as: 'category',
+      },
+    },
+    {
+      $unwind: {
+        path: '$category',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+  );
   next();
 });

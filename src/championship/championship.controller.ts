@@ -8,10 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ChampionshipService } from './championship.service';
-import { Championship } from './entities/championship.entity';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
+import { ChampionshipResponse } from './interfaces/championship-response.interface';
 
 @Controller('championship')
 export class ChampionshipController {
@@ -23,12 +23,14 @@ export class ChampionshipController {
   }
 
   @Get()
-  findAll(): Promise<Championship[]> {
+  findAll(): Promise<ChampionshipResponse[]> {
     return this.championshipService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseMongoIdPipe) id: string): Promise<Championship> {
+  findOne(
+    @Param('id', ParseMongoIdPipe) id: string,
+  ): Promise<ChampionshipResponse> {
     return this.championshipService.findOne(id);
   }
 

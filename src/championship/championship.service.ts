@@ -5,6 +5,8 @@ import { Championship } from './entities/championship.entity';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
 import { ChampionshipState } from './enums/championshipState.enum';
+import { ChampionshipMapper } from './mappers/championship.mapper';
+import { ChampionshipResponse } from './interfaces/championship-response.interface';
 
 @Injectable()
 export class ChampionshipService {
@@ -15,13 +17,13 @@ export class ChampionshipService {
 
   async create(
     createChampionshipDto: CreateChampionshipDto,
-  ): Promise<Championship> {
+  ): Promise<ChampionshipResponse> {
     // validar si ya esta registrado el torneo
-    const { name, gestion, category, gender } = createChampionshipDto;
+    const { name, management, category, gender } = createChampionshipDto;
     const result = await this.championshipModel
       .findOne({
         name,
-        gestion,
+        management,
         category,
         gender,
         state: { $ne: ChampionshipState.DRAFT },
@@ -31,24 +33,28 @@ export class ChampionshipService {
     //agrega la version
     createChampionshipDto.version = result?.version ? result.version + 1 : 1;
 
-    const championship = new this.championshipModel(createChampionshipDto);
-    return championship.save();
+    const championship = await new this.championshipModel(
+      createChampionshipDto,
+    ).save();
+    console.log(championship);
+    return ChampionshipMapper.championshipToResponse(championship);
   }
 
-  async findAll(): Promise<Championship[]> {
-    return this.championshipModel.find().exec();
+  async findAll(): Promise<ChampionshipResponse[]> {
+    const championships = await this.championshipModel.find().exec();
+    return ChampionshipMapper.ChampionshipListToResponse(championships);
   }
 
-  async findOne(id: string): Promise<Championship> {
+  async findOne(id: string): Promise<ChampionshipResponse> {
     const championship = await this.championshipModel.findById(id).exec();
     if (!championship) {
       throw new NotFoundException(`Championship with id ${id} not found`);
     }
-    return championship;
+    return ChampionshipMapper.championshipToResponse(championship);
   }
 
   update(id: number, updateChampionshipDto: UpdateChampionshipDto) {
-    return `This action updates a #${id} championship`;
+    return `This action updates a #${id} ${updateChampionshipDto.category} championship`;
   }
 
   remove(id: number) {

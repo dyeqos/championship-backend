@@ -8,7 +8,7 @@
 2. Ejecutar
 
 ```
-yarn install
+npm install
 ```
 
 3. Tener Nest CLI instalado

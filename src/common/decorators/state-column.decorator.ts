@@ -5,5 +5,6 @@ export const StateColumn = () =>
   Prop({
     type: Number,
     enum: State,
+    select: false,
     default: State.ACTIVE,
   });

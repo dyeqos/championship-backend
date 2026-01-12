@@ -6,9 +6,10 @@ import {
   IsOptional,
   Matches,
 } from 'class-validator';
-import { Gender } from '../enums/gender.enum';
 import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
 import { ChampionshipState } from '../enums/championshipState.enum';
+import { Gender } from 'src/common/enums/gender.enum';
+
 export class CreateChampionshipDto {
   @IsMongoId()
   @IsNotEmpty()
@@ -16,7 +17,7 @@ export class CreateChampionshipDto {
 
   @IsNumber()
   @IsNotEmpty()
-  gestion: number;
+  management: number;
 
   @IsNumber()
   @IsOptional()

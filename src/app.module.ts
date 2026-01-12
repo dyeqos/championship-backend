@@ -6,6 +6,9 @@ import { CommonModule } from './common/common.module';
 import { ParametersModule } from './parameters/parameters.module';
 import { EnvConfiguration } from './config/env.config';
 import { JoiValidationSchema } from './tools/validations/joi.validation';
+import { PlayersModule } from './players/players.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { JoiValidationSchema } from './tools/validations/joi.validation';
     ChampionshipModule,
     CommonModule,
     ParametersModule,
+    PlayersModule,
+    UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
