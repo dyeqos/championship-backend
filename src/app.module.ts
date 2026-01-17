@@ -9,6 +9,7 @@ import { JoiValidationSchema } from './tools/validations/joi.validation';
 import { PlayersModule } from './players/players.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     PlayersModule,
     UsersModule,
     AuthModule,
+    TeamModule,
   ],
 })
 export class AppModule {}

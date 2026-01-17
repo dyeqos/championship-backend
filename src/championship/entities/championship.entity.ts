@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { State } from 'src/common/enums/state.enum';
 import { StateColumn } from '../../common/decorators/state-column.decorator';
 import { Parameter } from 'src/parameters/entities/parameter.entity';
+import { State } from 'src/common/enums/state.enum';
+import { Gender } from 'src/common/enums/gender.enum';
 import { ChampionshipState } from '../enums/championshipState.enum';
 import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
-import { Gender } from 'src/common/enums/gender.enum';
 
 @Schema({ timestamps: true })
 export class Championship extends Document {

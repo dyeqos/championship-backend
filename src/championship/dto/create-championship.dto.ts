@@ -15,16 +15,16 @@ export class CreateChampionshipDto {
   @IsNotEmpty()
   name: string;
 
-  @IsNumber()
   @IsNotEmpty()
+  @IsNumber()
   management: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
   version?: number;
 
-  @IsMongoId()
   @IsNotEmpty()
+  @IsMongoId()
   category: string;
 
   @IsNotEmpty()
