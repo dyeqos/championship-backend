@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { User } from 'src/users/entities/user.entity';
-import { isValidPassword } from 'src/tools/utils/encrypt.util';
+import { isValidPassword } from 'src/common/tools/utils/encrypt.util';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthMapper } from './mapper/auth-response.interface';
 import { JwtPayload } from './interfaces/jwt-payload.interface';

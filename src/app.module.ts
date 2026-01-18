@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ChampionshipModule } from './championship/championship.module';
-import { CommonModule } from './common/common.module';
 import { ParametersModule } from './parameters/parameters.module';
-import { EnvConfiguration } from './config/env.config';
-import { JoiValidationSchema } from './tools/validations/joi.validation';
+import { CommonModule } from './common/common.module';
 import { PlayersModule } from './players/players.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { EnvConfiguration } from './config/env.config';
+import { JoiValidationSchema } from './common/tools/validations/joi.validation';
 
 @Module({
   imports: [

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
+import { ValidRoles } from 'src/auth/enum/valid-roles.enum';
 import { StateColumn } from 'src/common/decorators/state-column.decorator';
 import { State } from 'src/common/enums/state.enum';
 import { Person } from 'src/persons/entities/person.entity';
@@ -10,8 +11,12 @@ export class User extends Document {
   email: string;
   @Prop({ required: true, select: false })
   password: string;
-  @Prop({ type: Types.ObjectId, ref: 'Person', required: true })
+  @Prop({ type: Types.ObjectId, ref: Person.name, required: true })
   person: Person;
+  @Prop({
+    default: [ValidRoles.USER],
+  })
+  roles: string[];
   @StateColumn()
   aud_state: State;
 }

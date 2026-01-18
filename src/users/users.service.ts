@@ -7,9 +7,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Person } from 'src/persons/entities/person.entity';
 import { User } from './entities/user.entity';
-import { encryptPassword } from 'src/tools/utils/encrypt.util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { encryptPassword } from 'src/common/tools/utils/encrypt.util';
+import { CreateUser } from './interfaces/create-user-response.interface';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,7 @@ export class UsersService {
     private readonly userModel: Model<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<CreateUser> {
     const { email, password, ...personData } = createUserDto;
     await this.validateUser(personData.numberIdentifier, email);
     try {
@@ -31,7 +32,8 @@ export class UsersService {
         person: person._id,
       };
       const user = await new this.userModel(userData).save();
-      return user;
+      if (user) return { isCreated: true };
+      return { isCreated: true };
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Revise los logs');
@@ -46,8 +48,9 @@ export class UsersService {
     if (user) throw new BadRequestException('Email ya registrado');
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    const persons = await this.userModel.find();
+    return persons;
   }
 
   findOne(id: number) {
