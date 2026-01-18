@@ -5,6 +5,7 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 @Injectable()
 export class TeamService {
   create(createTeamDto: CreateTeamDto) {
+    console.log(createTeamDto);
     return 'This action adds a new team';
   }
 

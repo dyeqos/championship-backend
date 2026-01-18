@@ -1,1 +1,79 @@
-export class Team {}
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document, Types } from 'mongoose';
+import { Championship } from 'src/championship/entities/championship.entity';
+import { User } from 'src/users/entities/user.entity';
+import { TeamState } from '../enums/team-state.enum';
+import { Parameter } from 'src/parameters/entities/parameter.entity';
+import { StateColumn } from 'src/common/decorators/state-column.decorator';
+import { State } from 'src/common/enums/state.enum';
+
+@Schema({ timestamps: true })
+export class Team extends Document {
+  @Prop()
+  name: string;
+  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  teamUser: User;
+  @Prop({
+    type: Types.ObjectId,
+    ref: Championship.name,
+    required: true,
+    index: true,
+  })
+  championship: Championship;
+  @Prop({ type: Number, enum: TeamState, default: TeamState.pending })
+  state: TeamState;
+  @Prop({ type: Types.ObjectId, ref: Parameter.name, required: true })
+  color: Parameter;
+
+  //datos juego
+  @Prop({ default: 0 })
+  pl: number; //partidos jugados
+  @Prop({ default: 0 })
+  w: number; //partidos ganados
+  @Prop({ default: 0 })
+  d: number; //partidos empatados
+  @Prop({ default: 0 })
+  l: number; //partidos perdidos
+  @Prop({ default: 0 })
+  gf: number; //gol a favor
+  @Prop({ default: 0 })
+  ga: number; //gol en contra
+  @Prop({ default: 0 })
+  gd: number; //gol en diferencia
+  @Prop({ default: 0 })
+  pts: number; //puntos
+  @Prop({ default: 0 })
+  @StateColumn()
+  audState: State;
+}
+export const TeamSchema = SchemaFactory.createForClass(Team);
+TeamSchema.index({ championship: 1, audState: 1 });
+
+TeamSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
+  this.where({ audState: State.ACTIVE });
+  this.populate('color');
+  next();
+});
+TeamSchema.pre('aggregate', function (next) {
+  // Agrega un match al inicio del pipeline
+  this.pipeline().unshift(
+    { $match: { audState: State.ACTIVE } },
+
+    // Join con parameters para "name"
+    {
+      $lookup: {
+        from: 'parameters', // colección real
+        localField: 'color',
+        foreignField: '_id',
+        as: 'color',
+      },
+    },
+    {
+      $unwind: {
+        path: '$color',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+  );
+  next();
+});
