@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { EnvConfiguration } from './config/env.config';
 import { JoiValidationSchema } from './common/tools/validations/joi.validation';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { JoiValidationSchema } from './common/tools/validations/joi.validation';
     PlayersModule,
     UsersModule,
     AuthModule,
+    TeamModule,
   ],
 })
 export class AppModule {}
