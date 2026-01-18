@@ -5,12 +5,13 @@ export class DomainMapper {
   private static readonly domainMap = new Map<ParamDomain, string>([
     [ParamDomain.CATEGORY, 'Categoría'],
     [ParamDomain.CHAMPIONSHIP, 'Campeonato'],
+    [ParamDomain.COLOR, 'Color'],
   ]);
 
-  static domainToValueDescription(domains: ParamDomain[]): ValueDescription[] {
-    return domains.map((domain) => ({
-      value: domain,
-      description: this.domainMap.get(domain) ?? '',
+  static domainToValueDescription(): ValueDescription[] {
+    return Object.values(ParamDomain).map((value) => ({
+      value,
+      description: this.domainMap.get(value) ?? '',
     }));
   }
 }

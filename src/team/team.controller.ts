@@ -19,10 +19,6 @@ export class TeamController {
   create(@Body() createTeamDto: CreateTeamDto) {
     return this.teamService.create(createTeamDto);
   }
-  @Post('register')
-  register(@Body() createTeamDto: CreateTeamDto) {
-    return this.teamService.create(createTeamDto);
-  }
 
   @Get()
   findAll() {

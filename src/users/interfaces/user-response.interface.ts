@@ -4,4 +4,5 @@ export interface UserResponse {
   email: string;
   birthDate: string;
   age: number;
+  numberIdentifier: number;
 }

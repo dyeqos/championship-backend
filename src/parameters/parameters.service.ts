@@ -54,11 +54,8 @@ export class ParametersService {
     return ParameterMapper.paramListToResponse(parameters);
   }
 
-  async findDomains(): Promise<ValueDescription[]> {
-    const domains = await this.parameterModel
-      .distinct('domain', { isActive: true })
-      .exec();
-    return DomainMapper.domainToValueDescription(domains);
+  findDomains(): ValueDescription[] {
+    return DomainMapper.domainToValueDescription();
   }
 
   async remove(id: string): Promise<ParameterResponse> {

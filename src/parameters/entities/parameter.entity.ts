@@ -15,7 +15,7 @@ export class Parameter extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ default: true })
   isActive: boolean;
 
   @StateColumn()

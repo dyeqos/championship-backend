@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { TeamModule } from './team/team.module';
 import { envConfiguration } from './common/config/env.config';
 import { JoiValidationSchema } from './common/tools/validations/joi.validation';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { JoiValidationSchema } from './common/tools/validations/joi.validation';
     UsersModule,
     AuthModule,
     TeamModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

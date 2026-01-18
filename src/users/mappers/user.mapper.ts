@@ -17,6 +17,7 @@ export class UserMapper {
       age: getAge(birthdate),
       birthDate: dateToString(birthdate),
       email: user.email,
+      numberIdentifier: user.person.numberIdentifier,
     };
   }
 

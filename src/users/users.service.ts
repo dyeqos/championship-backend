@@ -11,6 +11,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { encryptPassword } from 'src/common/tools/utils/encrypt.util';
 import { CreateUser } from './interfaces/create-user-response.interface';
+import { UserMapper } from './mappers/user.mapper';
 
 @Injectable()
 export class UsersService {
@@ -50,7 +51,7 @@ export class UsersService {
 
   async findAll() {
     const persons = await this.userModel.find();
-    return persons;
+    return UserMapper.userListToResponse(persons);
   }
 
   findOne(id: number) {
