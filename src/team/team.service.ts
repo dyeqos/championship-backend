@@ -1,28 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './entities/team.entity';
 import { Championship } from 'src/championship/entities/championship.entity';
+import { ChampionshipState } from 'src/championship/enums/championshipState.enum';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class TeamService {
   constructor(
     @InjectModel(Team.name)
     private readonly teamModel: Model<Team>,
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
     @InjectModel(Championship.name)
     private readonly championshipModel: Model<Championship>,
   ) {}
 
   async create(createTeamDto: CreateTeamDto) {
-    const { championship } = createTeamDto;
+    const { championship, teamUser, ...teamData } = createTeamDto;
     const championshipEntity = await this.championshipModel
       .findById(championship)
       .exec();
-
-    console.log(createTeamDto);
-    return 'This action adds a new team';
+    if (!championshipEntity)
+      throw new BadRequestException('El campeonato no existe');
+    if (championshipEntity.state != ChampionshipState.DRAFT)
+      throw new BadRequestException('El campeonato esta en curso o finalizado');
+    const userEntity = await this.userModel.findById(teamUser).exec();
+    if (!userEntity) throw new BadRequestException('El usuario no existe');
+    try {
+      const teamEntity = await new this.teamModel({
+        ...teamData,
+        teamUser: userEntity,
+        championship: championshipEntity,
+      }).save();
+      return teamEntity;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error al registrar el equipo');
+    }
   }
 
   async findAll() {

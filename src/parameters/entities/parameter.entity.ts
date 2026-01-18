@@ -19,20 +19,20 @@ export class Parameter extends Document {
   isActive: boolean;
 
   @StateColumn()
-  aud_state: State;
+  audState: State;
 }
 export const ParameterSchema = SchemaFactory.createForClass(Parameter);
-ParameterSchema.index({ name: 1, aud_state: 1 });
+ParameterSchema.index({ name: 1, audState: 1 });
 
 // Middleware para todas las consultas find, findOne, findOneAndUpdate, etc.
 ParameterSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
-  this.where({ aud_state: State.ACTIVE });
+  this.where({ audState: State.ACTIVE });
   next();
 });
 
 // Middleware para agregaciones
 ParameterSchema.pre('aggregate', function (next) {
   // Agrega un match al inicio del pipeline
-  this.pipeline().unshift({ $match: { aud_state: State.ACTIVE } });
+  this.pipeline().unshift({ $match: { audState: State.ACTIVE } });
   next();
 });

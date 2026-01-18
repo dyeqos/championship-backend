@@ -16,18 +16,18 @@ export class Person extends Document {
   @Prop({ required: true, unique: true, index: true })
   numberIdentifier: number;
   @StateColumn()
-  aud_state: State;
+  audState: State;
 }
 
 export const PersonSchema = SchemaFactory.createForClass(Person);
 
 PersonSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
-  this.where({ aud_state: State.ACTIVE });
+  this.where({ audState: State.ACTIVE });
   next();
 });
 
 PersonSchema.pre('aggregate', function (next) {
   // Agregar un match al inicio del pipeline
-  this.pipeline().unshift({ $match: { aud_state: State.ACTIVE } });
+  this.pipeline().unshift({ $match: { audState: State.ACTIVE } });
   next();
 });

@@ -18,19 +18,19 @@ export class User extends Document {
   })
   roles: string[];
   @StateColumn()
-  aud_state: State;
+  audState: State;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.index({ email: 1, aud_state: 1 });
+UserSchema.index({ email: 1, audState: 1 });
 UserSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
-  this.where({ aud_state: State.ACTIVE });
+  this.where({ audState: State.ACTIVE });
   this.populate('person');
   next();
 });
 
 UserSchema.pre('aggregate', function (next) {
   this.pipeline().unshift(
-    { $match: { aud_state: State.ACTIVE } },
+    { $match: { audState: State.ACTIVE } },
 
     {
       $lookup: {

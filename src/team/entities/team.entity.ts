@@ -22,7 +22,7 @@ export class Team extends Document {
   championship: Championship;
   @Prop({ type: Number, enum: TeamState, default: TeamState.pending })
   state: TeamState;
-  @Prop({ type: Types.ObjectId, ref: Parameter.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: Parameter.name })
   color: Parameter;
 
   //datos juego

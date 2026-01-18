@@ -60,7 +60,7 @@ export class ParametersService {
 
   async remove(id: string): Promise<ParameterResponse> {
     const deleted = await this.parameterModel.findByIdAndUpdate(id, {
-      aud_state: State.DELETE,
+      audState: State.DELETE,
     });
     if (!deleted)
       throw new NotFoundException(`Parameter with id ${id} not found`);

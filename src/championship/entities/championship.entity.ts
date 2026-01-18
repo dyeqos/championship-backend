@@ -48,7 +48,7 @@ export class Championship extends Document {
   state: ChampionshipState;
 
   @StateColumn()
-  aud_state: State;
+  audState: State;
 }
 
 export const ChampionshipSchema = SchemaFactory.createForClass(Championship);
@@ -57,7 +57,7 @@ export const ChampionshipSchema = SchemaFactory.createForClass(Championship);
 ChampionshipSchema.pre(
   /^find/,
   function (this: mongoose.Query<any, any>, next) {
-    this.where({ aud_state: State.ACTIVE });
+    this.where({ audState: State.ACTIVE });
     this.populate('name').populate('category');
     next();
   },
@@ -67,7 +67,7 @@ ChampionshipSchema.pre(
 ChampionshipSchema.pre('aggregate', function (next) {
   // Agrega un match al inicio del pipeline
   this.pipeline().unshift(
-    { $match: { aud_state: State.ACTIVE } },
+    { $match: { audState: State.ACTIVE } },
 
     // Join con parameters para "name"
     {
