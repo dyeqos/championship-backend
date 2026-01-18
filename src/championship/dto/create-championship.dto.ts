@@ -6,7 +6,7 @@ import {
   IsOptional,
   Matches,
 } from 'class-validator';
-import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
+import { stringDateRegex } from 'src/common/constants/regex.constant';
 import { ChampionshipState } from '../enums/championshipState.enum';
 import { Gender } from 'src/common/enums/gender.enum';
 
@@ -32,13 +32,13 @@ export class CreateChampionshipDto {
   gender: Gender;
 
   @IsOptional()
-  @Matches(STRING_DATE_REGEX, {
+  @Matches(stringDateRegex, {
     message: 'Formato inválido, debe ser DD/MM/YYYY',
   })
   dateInit?: string;
 
   @IsOptional()
-  @Matches(STRING_DATE_REGEX, {
+  @Matches(stringDateRegex, {
     message: 'Formato inválido, debe ser DD/MM/YYYY',
   })
   dateFinish?: string;

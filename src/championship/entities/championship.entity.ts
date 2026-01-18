@@ -5,7 +5,7 @@ import { Parameter } from 'src/parameters/entities/parameter.entity';
 import { State } from 'src/common/enums/state.enum';
 import { Gender } from 'src/common/enums/gender.enum';
 import { ChampionshipState } from '../enums/championshipState.enum';
-import { STRING_DATE_REGEX } from 'src/constants/regex.constant';
+import { stringDateRegex } from 'src/common/constants/regex.constant';
 
 @Schema({ timestamps: true })
 export class Championship extends Document {
@@ -30,13 +30,13 @@ export class Championship extends Document {
 
   @Prop({
     type: String,
-    match: STRING_DATE_REGEX,
+    match: stringDateRegex,
   })
   dateInit: string;
 
   @Prop({
     type: String,
-    match: STRING_DATE_REGEX,
+    match: stringDateRegex,
   })
   dateFinish: string;
 

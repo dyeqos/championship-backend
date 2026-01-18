@@ -7,14 +7,14 @@ import { CommonModule } from './common/common.module';
 import { PlayersModule } from './players/players.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { EnvConfiguration } from './config/env.config';
-import { JoiValidationSchema } from './common/tools/validations/joi.validation';
 import { TeamModule } from './team/team.module';
+import { envConfiguration } from './common/config/env.config';
+import { JoiValidationSchema } from './common/tools/validations/joi.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [EnvConfiguration],
+      load: [envConfiguration],
       validationSchema: JoiValidationSchema,
     }),
     MongooseModule.forRoot(process.env.MONGO_DB!, {
