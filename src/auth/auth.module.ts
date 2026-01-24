@@ -12,14 +12,14 @@ import { User, UserSchema } from 'src/users/entities/user.entity';
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
   imports: [
-    ConfigModule,
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET') ?? '',
+        secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: '1h',
         },

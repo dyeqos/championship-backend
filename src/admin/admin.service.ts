@@ -45,6 +45,11 @@ export class AdminService {
     //Parámetros Seed
     await this.parameterModel.insertMany([
       {
+        domain: ParamDomain.CHAMPIONSHIP,
+        name: 'Campo deportivo Petofi',
+        description: 'Zona Barrio Gráfico',
+      },
+      {
         domain: ParamDomain.CATEGORY,
         name: 'Senior',
         description: 'Campeonato sin límite de edad',
