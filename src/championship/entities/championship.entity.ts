@@ -5,7 +5,6 @@ import { Parameter } from 'src/parameters/entities/parameter.entity';
 import { State } from 'src/common/enums/state.enum';
 import { Gender } from 'src/common/enums/gender.enum';
 import { ChampionshipState } from '../enums/championshipState.enum';
-import { stringDateRegex } from 'src/common/constants/regex.constant';
 
 @Schema({ timestamps: true })
 export class Championship extends Document {
@@ -29,16 +28,14 @@ export class Championship extends Document {
   gender: Gender;
 
   @Prop({
-    type: String,
-    match: stringDateRegex,
+    type: Date,
   })
-  dateInit: string;
+  dateInit?: Date;
 
   @Prop({
-    type: String,
-    match: stringDateRegex,
+    type: Date,
   })
-  dateFinish: string;
+  dateEnd?: Date;
 
   @Prop({
     type: Number,
@@ -46,6 +43,9 @@ export class Championship extends Document {
     default: ChampionshipState.DRAFT,
   })
   state: ChampionshipState;
+
+  @Prop({ type: Number, default: 0 })
+  totalTeams: number;
 
   @StateColumn()
   audState: State;

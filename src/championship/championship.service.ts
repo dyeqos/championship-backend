@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Championship } from './entities/championship.entity';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
+import { FilterChampionshipDto } from './dto/filter-championship.dto';
 import { ChampionshipState } from './enums/championshipState.enum';
 import { ChampionshipMapper } from './mappers/championship.mapper';
 import { ChampionshipResponse } from './interfaces/championship-response.interface';
@@ -40,8 +41,17 @@ export class ChampionshipService {
     return ChampionshipMapper.championshipToResponse(championship);
   }
 
-  async findAll(): Promise<ChampionshipResponse[]> {
-    const championships = await this.championshipModel.find().exec();
+  async findAll(
+    filterDTO: FilterChampionshipDto,
+  ): Promise<ChampionshipResponse[]> {
+    const mongoFilter: FilterQuery<Championship> = {};
+    const { category, management, state, name } = filterDTO;
+    if (name) mongoFilter.name = name;
+    if (management) mongoFilter.management = management;
+    if (category) mongoFilter.category = category;
+    if (state) mongoFilter.state = state;
+
+    const championships = await this.championshipModel.find(mongoFilter).exec();
     return ChampionshipMapper.ChampionshipListToResponse(championships);
   }
 

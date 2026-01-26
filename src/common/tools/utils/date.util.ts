@@ -17,7 +17,8 @@ export const getAge = (birthdate: Date) => {
   return age;
 };
 
-export const dateToString = (date: Date): string => {
+export const dateToString = (date?: Date | null): string => {
+  if (!date) return 'Sin fecha';
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();

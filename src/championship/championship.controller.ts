@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ChampionshipService } from './championship.service';
 import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
 import { ChampionshipResponse } from './interfaces/championship-response.interface';
+import { FilterChampionshipDto } from './dto/filter-championship.dto';
 
 @Controller('championship')
 export class ChampionshipController {
@@ -23,8 +25,10 @@ export class ChampionshipController {
   }
 
   @Get()
-  findAll(): Promise<ChampionshipResponse[]> {
-    return this.championshipService.findAll();
+  findAll(
+    @Query() query: FilterChampionshipDto,
+  ): Promise<ChampionshipResponse[]> {
+    return this.championshipService.findAll(query);
   }
 
   @Get(':id')

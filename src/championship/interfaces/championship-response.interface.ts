@@ -8,4 +8,7 @@ export interface ChampionshipResponse {
   category: ParameterResponse;
   gender: number;
   state: number;
+  dateInit: string;
+  dateEnd: string;
+  totalTeams: number;
 }
