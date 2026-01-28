@@ -12,6 +12,7 @@ import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id/parse-mongo-id
 import { ParametersService } from './parameters.service';
 import { CreateParameterDto } from './dto/create-parameter.dto';
 import { UpdateParameterDto } from './dto/update-parameter.dto';
+import { FilterDomainParameterDto } from './dto/filter-domain-parameter.dto';
 
 @Controller('parameters')
 export class ParametersController {
@@ -22,9 +23,9 @@ export class ParametersController {
     return this.parametersService.create(createParameterDto);
   }
 
-  @Get('search')
-  findForName(@Query('name') name?: string) {
-    return this.parametersService.findForName(name);
+  @Get()
+  findForDomain(@Query() filterForDomain: FilterDomainParameterDto) {
+    return this.parametersService.findForDomain(filterForDomain);
   }
 
   @Get('all')

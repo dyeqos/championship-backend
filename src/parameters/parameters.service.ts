@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Parameter } from './entities/parameter.entity';
 import { DomainMapper } from './mappers/domain.mapper';
 import { ParameterMapper } from './mappers/parameter.mapper';
@@ -13,6 +13,7 @@ import { UpdateParameterDto } from './dto/update-parameter.dto';
 import { ValueDescription } from './interfaces/value-description.interface';
 import { ParameterResponse } from './interfaces/parameter-response.interface';
 import { State } from 'src/common/enums/state.enum';
+import { FilterDomainParameterDto } from './dto/filter-domain-parameter.dto';
 
 @Injectable()
 export class ParametersService {
@@ -43,13 +44,17 @@ export class ParametersService {
     return `This action returns a #${id} parameter`;
   }
 
-  async findForName(name?: string): Promise<ParameterResponse[]> {
-    if (!name || name.trim() === '') {
-      throw new BadRequestException('El parámetro "name" es obligatorio');
-    }
-    const parameters = await this.parameterModel.find({ name }).exec();
-    if (!parameters) {
-      throw new NotFoundException(`parameter with name: ${name} not found`);
+  async findForDomain(
+    filterForDomain: FilterDomainParameterDto,
+  ): Promise<ParameterResponse[]> {
+    const mongoFilter: FilterQuery<Parameter> = {
+      domain: filterForDomain.domain.toUpperCase(),
+    };
+    const parameters = await this.parameterModel.find(mongoFilter).exec();
+    if (!parameters || parameters.length === 0) {
+      throw new NotFoundException(
+        `parameter with domain: ${filterForDomain.domain} not found`,
+      );
     }
     return ParameterMapper.paramListToResponse(parameters);
   }
