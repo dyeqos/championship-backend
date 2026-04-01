@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User } from 'src/users/entities/user.entity';
 import { Person } from 'src/persons/entities/person.entity';
 import { Parameter } from 'src/parameters/entities/parameter.entity';
+import { encryptPassword } from 'src/common/tools/utils/encrypt.util';
 import { Gender } from 'src/common/enums/gender.enum';
 import { ValidRoles } from 'src/auth/enum/valid-roles.enum';
 import { ParamDomain } from 'src/parameters/enums/param-domain.enum';
@@ -38,7 +39,7 @@ export class AdminService {
     //Crear Usuario
     await new this.userModel({
       email: 'dyeqos@gmail.com',
-      password: '12345',
+      password: encryptPassword('Abc123'),
       person,
       roles: [ValidRoles.SUPER_ADMIN],
     }).save();
