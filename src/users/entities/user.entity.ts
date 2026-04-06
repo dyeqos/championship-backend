@@ -8,17 +8,17 @@ import { Person } from 'src/persons/entities/person.entity';
 @Schema({ timestamps: true })
 export class User extends Document {
   @Prop({ required: true, index: true, unique: true })
-  email: string;
+  email!: string;
   @Prop({ required: true, select: false })
-  password: string;
-  @Prop({ type: Types.ObjectId, ref: Person.name, required: true })
-  person: Person;
+  password!: string;
+  @Prop({ type: Types.ObjectId, ref: Person.name, required: false })
+  person?: Person;
   @Prop({
-    default: [ValidRoles.USER],
+    default: [ValidRoles.GUEST],
   })
-  roles: string[];
+  roles!: string[];
   @StateColumn()
-  audState: State;
+  audState!: State;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.index({ email: 1, audState: 1 });

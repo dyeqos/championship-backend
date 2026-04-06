@@ -1,4 +1,5 @@
-export const getAge = (birthdate: Date) => {
+export const getAge = (birthdate?: Date) => {
+  if (!birthdate) return;
   const hoy = new Date();
 
   let age = hoy.getFullYear() - birthdate.getFullYear();

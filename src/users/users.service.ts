@@ -45,6 +45,10 @@ export class UsersService {
     const person = await this.personModel.findOne({ numberIdentifier }).exec();
     if (person)
       throw new BadRequestException('Número de identificación ya registrado');
+    await this.validateEmailNotDuplicated(email);
+  }
+
+  private async validateEmailNotDuplicated(email: string) {
     const user = await this.userModel.findOne({ email }).exec();
     if (user) throw new BadRequestException('Email ya registrado');
   }

@@ -3,6 +3,6 @@ export interface UserResponse {
   fullName: string;
   email: string;
   birthDate: string;
-  age: number;
-  numberIdentifier: number;
+  age?: number;
+  numberIdentifier?: number;
 }

@@ -4,20 +4,22 @@ import { UserResponse } from '../interfaces/user-response.interface';
 
 export class UserMapper {
   static userToResponse(user: User): UserResponse {
-    const birthdate = user.person.birthdate;
+    const birthdate = user.person?.birthdate;
     return {
       id: user._id as string,
-      fullName: [
-        user.person.firstName,
-        user.person.lastName,
-        user.person.secondLastName,
-      ]
-        .filter(Boolean)
-        .join(' '),
+      fullName: user.person
+        ? [
+            user.person.firstName,
+            user.person.lastName,
+            user.person.secondLastName,
+          ]
+            .filter(Boolean)
+            .join(' ')
+        : user.email,
       age: getAge(birthdate),
       birthDate: dateToString(birthdate),
       email: user.email,
-      numberIdentifier: user.person.numberIdentifier,
+      numberIdentifier: user.person?.numberIdentifier,
     };
   }
 

@@ -14,27 +14,27 @@ export class CreatePersonDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(50)
-  firstName: string;
+  firstName!: string;
 
   @ValidateIf((o: CreatePersonDto) => !o.secondLastName)
   @MinLength(3)
   @MaxLength(50)
-  lastName: string;
+  lastName?: string;
 
   @ValidateIf((o: CreatePersonDto) => !o.lastName)
   @MinLength(3)
   @MaxLength(50)
-  secondLastName: string;
+  secondLastName?: string;
 
   @StringToDate()
   @IsDate()
-  birthdate: Date;
+  birthdate!: Date;
 
   @IsNumber()
   @IsNotEmpty()
-  numberIdentifier: number;
+  numberIdentifier!: number;
 
   @IsNotEmpty()
   @IsEnum(Gender)
-  gender: Gender;
+  gender!: Gender;
 }

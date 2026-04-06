@@ -6,17 +6,17 @@ import { State } from 'src/common/enums/state.enum';
 @Schema({ timestamps: true })
 export class Person extends Document {
   @Prop({ required: true })
-  firstName: string;
+  firstName!: string;
   @Prop()
   lastName?: string;
   @Prop()
   secondLastName?: string;
   @Prop({ required: true, type: Date })
-  birthdate: Date;
+  birthdate!: Date;
   @Prop({ required: true, unique: true, index: true })
-  numberIdentifier: number;
+  numberIdentifier!: number;
   @StateColumn()
-  audState: State;
+  audState!: State;
 }
 
 export const PersonSchema = SchemaFactory.createForClass(Person);

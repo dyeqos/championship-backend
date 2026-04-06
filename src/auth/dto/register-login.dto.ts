@@ -1,19 +1,16 @@
 import {
-  IsArray,
   IsEmail,
   IsLowercase,
   IsNotEmpty,
-  IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
-import { CreatePersonDto } from 'src/persons/dto/create-person.dto';
 import { passwordRegex } from '../../common/constants/regex.constant';
 
-export class CreateUserDto extends CreatePersonDto {
+export class RegisterLoginDto {
   @IsNotEmpty()
   @IsEmail()
   @MaxLength(50)
@@ -29,8 +26,4 @@ export class CreateUserDto extends CreatePersonDto {
       'El password debe tener una letra mayúscula, minúscula y un número',
   })
   password!: string;
-
-  @IsOptional()
-  @IsArray()
-  roles?: string[];
 }
