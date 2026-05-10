@@ -1,5 +1,5 @@
-import { dateToString, getAge } from 'src/common/tools/utils/date.util';
 import { User } from '../entities/user.entity';
+import { dateToString, getAge } from '../../common/tools/utils/date.util';
 import { UserResponse } from '../interfaces/user-response.interface';
 
 export class UserMapper {

@@ -1,50 +1,49 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { Championship } from 'src/championship/entities/championship.entity';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
+import { Championship } from '../../championship/entities/championship.entity';
 import { TeamState } from '../enums/team-state.enum';
-import { Parameter } from 'src/parameters/entities/parameter.entity';
-import { StateColumn } from 'src/common/decorators/state-column.decorator';
-import { State } from 'src/common/enums/state.enum';
+import { Parameter } from '../../parameters/entities/parameter.entity';
+import { State } from '../../common/enums/state.enum';
+import { StateColumn } from '../../common/decorators/state-column.decorator';
 
 @Schema({ timestamps: true })
 export class Team extends Document {
   @Prop()
-  name: string;
+  name?: string;
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  teamUser: User;
+  teamUser!: User;
   @Prop({
     type: Types.ObjectId,
     ref: Championship.name,
     required: true,
     index: true,
   })
-  championship: Championship;
+  championship!: Championship;
   @Prop({ type: Number, enum: TeamState, default: TeamState.pending })
-  state: TeamState;
+  state!: TeamState;
   @Prop({ type: Types.ObjectId, ref: Parameter.name })
-  color: Parameter;
+  color?: Parameter;
 
   //datos juego
   @Prop({ default: 0 })
-  pl: number; //partidos jugados
+  pl!: number; //partidos jugados
   @Prop({ default: 0 })
-  w: number; //partidos ganados
+  w!: number; //partidos ganados
   @Prop({ default: 0 })
-  d: number; //partidos empatados
+  d!: number; //partidos empatados
   @Prop({ default: 0 })
-  l: number; //partidos perdidos
+  l!: number; //partidos perdidos
   @Prop({ default: 0 })
-  gf: number; //gol a favor
+  gf!: number; //gol a favor
   @Prop({ default: 0 })
-  ga: number; //gol en contra
+  ga!: number; //gol en contra
   @Prop({ default: 0 })
-  gd: number; //gol en diferencia
+  gd!: number; //gol en diferencia
   @Prop({ default: 0 })
-  pts: number; //puntos
-  @Prop({ default: 0 })
+  pts!: number; //puntos
   @StateColumn()
-  audState: State;
+  audState!: State;
 }
 export const TeamSchema = SchemaFactory.createForClass(Team);
 TeamSchema.index({ championship: 1, audState: 1 });

@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Team } from './entities/team.entity';
+import { User } from '../users/entities/user.entity';
+import { Championship } from '../championship/entities/championship.entity';
+import { ChampionshipState } from '../championship/enums/championshipState.enum';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { Team } from './entities/team.entity';
-import { Championship } from 'src/championship/entities/championship.entity';
-import { ChampionshipState } from 'src/championship/enums/championshipState.enum';
-import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class TeamService {
@@ -49,7 +49,7 @@ export class TeamService {
 
   async findAll() {
     const teams = await this.teamModel.find().exec();
-
+    console.log(teams);
     return teams;
   }
 

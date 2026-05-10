@@ -22,6 +22,7 @@ export class User extends Document {
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.index({ email: 1, audState: 1 });
+
 UserSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
   this.where({ audState: State.ACTIVE });
   this.populate('person');

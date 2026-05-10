@@ -12,21 +12,21 @@ export class CreateTeamDto {
   @IsOptional()
   @MaxLength(50)
   @MinLength(3)
-  name: string;
+  name?: string;
 
   @IsNotEmpty()
   @IsMongoId()
-  teamUser: string;
+  teamUser!: string;
 
   @IsNotEmpty()
   @IsMongoId()
-  championship: string;
+  championship!: string;
 
   @IsOptional()
   @IsEnum(TeamState)
-  state: TeamState;
+  state!: TeamState;
 
   @IsOptional()
   @IsMongoId()
-  color: string;
+  color?: string;
 }

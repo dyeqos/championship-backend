@@ -8,12 +8,12 @@ import { FilterQuery, Model } from 'mongoose';
 import { Parameter } from './entities/parameter.entity';
 import { DomainMapper } from './mappers/domain.mapper';
 import { ParameterMapper } from './mappers/parameter.mapper';
+import { State } from '../common/enums/state.enum';
 import { CreateParameterDto } from './dto/create-parameter.dto';
 import { UpdateParameterDto } from './dto/update-parameter.dto';
+import { FilterDomainParameterDto } from './dto/filter-domain-parameter.dto';
 import { ValueDescription } from './interfaces/value-description.interface';
 import { ParameterResponse } from './interfaces/parameter-response.interface';
-import { State } from 'src/common/enums/state.enum';
-import { FilterDomainParameterDto } from './dto/filter-domain-parameter.dto';
 
 @Injectable()
 export class ParametersService {
