@@ -10,6 +10,7 @@ import {
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 
 @Controller('team')
 export class TeamController {
@@ -23,6 +24,13 @@ export class TeamController {
   @Get()
   findAll() {
     return this.teamService.findAll();
+  }
+
+  @Get('by/championship/:championshipId')
+  findTeamsByChampionship(
+    @Param('championshipId', ParseMongoIdPipe) championshipId: string,
+  ) {
+    return this.teamService.findTeamsByChampionship(championshipId);
   }
 
   @Get(':id')

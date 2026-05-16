@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Team } from './entities/team.entity';
 import { User } from '../users/entities/user.entity';
 import { Championship } from '../championship/entities/championship.entity';
@@ -49,7 +49,12 @@ export class TeamService {
 
   async findAll() {
     const teams = await this.teamModel.find().exec();
-    console.log(teams);
+    return teams;
+  }
+
+  async findTeamsByChampionship(championshipId: string) {
+    const championship = new Types.ObjectId(championshipId);
+    const teams = await this.teamModel.find({ championship }).exec();
     return teams;
   }
 
