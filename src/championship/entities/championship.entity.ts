@@ -40,7 +40,7 @@ export class Championship extends Document {
   @Prop({
     type: Number,
     enum: ChampionshipState,
-    default: ChampionshipState.ACTIVE,
+    default: ChampionshipState.DRAFT,
   })
   state!: ChampionshipState;
 
