@@ -9,23 +9,23 @@ import { ChampionshipState } from '../enums/championshipState.enum';
 @Schema({ timestamps: true })
 export class Championship extends Document {
   @Prop({ type: Types.ObjectId, ref: Parameter.name, required: true })
-  name: Parameter;
+  name!: Parameter;
 
   @Prop({ required: true })
-  management: number;
+  management!: number;
 
   @Prop({ required: true })
-  version: number;
+  version!: number;
 
   @Prop({ type: Types.ObjectId, ref: Parameter.name, required: true })
-  category: Parameter;
+  category!: Parameter;
 
   @Prop({
     type: Number,
     enum: Gender,
     required: true,
   })
-  gender: Gender;
+  gender!: Gender;
 
   @Prop({
     type: Date,
@@ -40,15 +40,15 @@ export class Championship extends Document {
   @Prop({
     type: Number,
     enum: ChampionshipState,
-    default: ChampionshipState.DRAFT,
+    default: ChampionshipState.ACTIVE,
   })
-  state: ChampionshipState;
+  state!: ChampionshipState;
 
   @Prop({ type: Number, default: 0 })
-  totalTeams: number;
+  totalTeams!: number;
 
   @StateColumn()
-  audState: State;
+  audState!: State;
 }
 
 export const ChampionshipSchema = SchemaFactory.createForClass(Championship);

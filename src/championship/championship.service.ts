@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { Championship } from './entities/championship.entity';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
 import { FilterChampionshipDto } from './dto/filter-championship.dto';
-import { ChampionshipState } from './enums/championshipState.enum';
+import { isBeforeToday } from 'src/common/tools/validations/date.validation';
 import { ChampionshipMapper } from './mappers/championship.mapper';
 import { ChampionshipResponse } from './interfaces/championship-response.interface';
 
@@ -20,20 +24,28 @@ export class ChampionshipService {
     createChampionshipDto: CreateChampionshipDto,
   ): Promise<ChampionshipResponse> {
     // validar si ya esta registrado el torneo
-    const { name, management, category, gender } = createChampionshipDto;
+    const { name, management, category, gender, dateInit } =
+      createChampionshipDto;
+
+    const isBefore = isBeforeToday(dateInit);
+
+    if (isBefore) {
+      throw new BadRequestException(
+        `La fecha ${dateInit} es anterior a la fecha actual. Por favor, proporcione una fecha válida.`,
+      );
+    }
+
     const result = await this.championshipModel
       .findOne({
         name,
         management,
         category,
         gender,
-        state: { $ne: ChampionshipState.DRAFT },
       })
       .sort({ version: -1 })
       .exec();
     //agrega la version
-    createChampionshipDto.version = result?.version ? result.version + 1 : 1;
-
+    createChampionshipDto.version = result?.version ? ++result.version : 1;
     const championship = await new this.championshipModel(
       createChampionshipDto,
     ).save();

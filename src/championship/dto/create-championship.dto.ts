@@ -13,11 +13,11 @@ import { Gender } from 'src/common/enums/gender.enum';
 export class CreateChampionshipDto {
   @IsMongoId()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsNotEmpty()
   @IsNumber()
-  management: number;
+  management!: number;
 
   @IsOptional()
   @IsNumber()
@@ -25,17 +25,17 @@ export class CreateChampionshipDto {
 
   @IsNotEmpty()
   @IsMongoId()
-  category: string;
+  category!: string;
 
   @IsNotEmpty()
   @IsEnum(Gender)
-  gender: Gender;
+  gender!: Gender;
 
-  @IsOptional()
+  @IsNotEmpty()
   @Matches(stringDateRegex, {
     message: 'Formato inválido, debe ser DD/MM/YYYY',
   })
-  dateInit?: string;
+  dateInit!: string;
 
   @IsOptional()
   @Matches(stringDateRegex, {
