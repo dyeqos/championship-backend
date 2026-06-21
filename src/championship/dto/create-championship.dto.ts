@@ -33,7 +33,7 @@ export class CreateChampionshipDto {
 
   @IsNotEmpty()
   @Matches(stringDateRegex, {
-    message: 'Formato inválido, debe ser DD/MM/YYYY',
+    message: 'Formato inválido, debe ser DD/MM/AAAA',
   })
   dateInit!: string;
 

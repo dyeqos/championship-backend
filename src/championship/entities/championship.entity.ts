@@ -29,8 +29,9 @@ export class Championship extends Document {
 
   @Prop({
     type: Date,
+    required: true,
   })
-  dateInit?: Date;
+  dateInit!: Date;
 
   @Prop({
     type: Date,

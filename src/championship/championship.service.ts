@@ -9,8 +9,8 @@ import { Championship } from './entities/championship.entity';
 import { CreateChampionshipDto } from './dto/create-championship.dto';
 import { UpdateChampionshipDto } from './dto/update-championship.dto';
 import { FilterChampionshipDto } from './dto/filter-championship.dto';
-import { isBeforeToday } from 'src/common/tools/validations/date.validation';
 import { ChampionshipMapper } from './mappers/championship.mapper';
+import { isDateBefore, stringToDate } from 'src/common/tools/utils/date.util';
 import { ChampionshipResponse } from './interfaces/championship-response.interface';
 
 @Injectable()
@@ -27,9 +27,7 @@ export class ChampionshipService {
     const { name, management, category, gender, dateInit } =
       createChampionshipDto;
 
-    const isBefore = isBeforeToday(dateInit);
-
-    if (isBefore) {
+    if (isDateBefore(dateInit, new Date())) {
       throw new BadRequestException(
         `La fecha ${dateInit} es anterior a la fecha actual. Por favor, proporcione una fecha válida.`,
       );
@@ -44,13 +42,15 @@ export class ChampionshipService {
       })
       .sort({ version: -1 })
       .exec();
-    //agrega la version
-    createChampionshipDto.version = result?.version ? ++result.version : 1;
-    const championship = await new this.championshipModel(
-      createChampionshipDto,
-    ).save();
-    console.log(championship);
-    return ChampionshipMapper.championshipToResponse(championship);
+    const { _id } = await new this.championshipModel({
+      ...createChampionshipDto,
+      version: result?.version ? ++result.version : 1,
+      dateInit: stringToDate(dateInit),
+    }).save();
+    const entity = await this.championshipModel.findById(_id);
+    if (!entity)
+      throw new BadRequestException(`No se pudo registrar el campeonato.`);
+    return ChampionshipMapper.championshipToResponse(entity);
   }
 
   async findAll(

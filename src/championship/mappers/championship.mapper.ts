@@ -1,7 +1,7 @@
 import { Championship } from '../entities/championship.entity';
 import { ParameterMapper } from 'src/parameters/mappers/parameter.mapper';
-import { ChampionshipResponse } from '../interfaces/championship-response.interface';
 import { dateToString } from 'src/common/tools/utils/date.util';
+import { ChampionshipResponse } from '../interfaces/championship-response.interface';
 
 export class ChampionshipMapper {
   static championshipToResponse(
