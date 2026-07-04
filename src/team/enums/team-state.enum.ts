@@ -1,5 +1,5 @@
 export enum TeamState {
-  pending = 1,
-  forAuthorization = 2,
-  active = 3,
+  PENDING = 1,
+  FOR_AUTHORIZATION = 2,
+  ACTIVE = 3,
 }

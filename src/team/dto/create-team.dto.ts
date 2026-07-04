@@ -9,10 +9,10 @@ import {
 import { TeamState } from '../enums/team-state.enum';
 
 export class CreateTeamDto {
-  @IsOptional()
+  @IsNotEmpty()
   @MaxLength(50)
   @MinLength(3)
-  name?: string;
+  name!: string;
 
   @IsNotEmpty()
   @IsMongoId()
@@ -24,7 +24,7 @@ export class CreateTeamDto {
 
   @IsOptional()
   @IsEnum(TeamState)
-  state!: TeamState;
+  state?: TeamState;
 
   @IsOptional()
   @IsMongoId()

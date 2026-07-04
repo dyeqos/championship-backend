@@ -9,8 +9,8 @@ import { StateColumn } from '../../common/decorators/state-column.decorator';
 
 @Schema({ timestamps: true })
 export class Team extends Document {
-  @Prop()
-  name?: string;
+  @Prop({ required: true })
+  name!: string;
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   teamUser!: User;
   @Prop({
@@ -20,7 +20,7 @@ export class Team extends Document {
     index: true,
   })
   championship!: Championship;
-  @Prop({ type: Number, enum: TeamState, default: TeamState.pending })
+  @Prop({ type: Number, enum: TeamState, default: TeamState.PENDING })
   state!: TeamState;
   @Prop({ type: Types.ObjectId, ref: Parameter.name })
   color?: Parameter;
@@ -51,6 +51,8 @@ TeamSchema.index({ championship: 1, audState: 1 });
 TeamSchema.pre(/^find/, function (this: mongoose.Query<any, any>, next) {
   this.where({ audState: State.ACTIVE });
   this.populate('color');
+  this.populate('teamUser');
+  this.populate('championship');
   next();
 });
 TeamSchema.pre('aggregate', function (next) {
@@ -70,6 +72,34 @@ TeamSchema.pre('aggregate', function (next) {
     {
       $unwind: {
         path: '$color',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'users', // colección real
+        localField: 'teamUser',
+        foreignField: '_id',
+        as: 'teamUser',
+      },
+    },
+    {
+      $unwind: {
+        path: '$teamUser',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'championships', // colección real
+        localField: 'championship',
+        foreignField: '_id',
+        as: 'championship',
+      },
+    },
+    {
+      $unwind: {
+        path: '$championship',
         preserveNullAndEmptyArrays: true,
       },
     },

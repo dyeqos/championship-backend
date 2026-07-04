@@ -6,6 +6,7 @@ import {
   parse,
   isValid,
   format,
+  differenceInMilliseconds,
 } from 'date-fns';
 
 type DateInput = Date | string;
@@ -64,3 +65,30 @@ export const isBeforeOrEqual = (date1: DateInput, date2: DateInput): boolean =>
 
 export const isAfterOrEqual = (date1: DateInput, date2: DateInput): boolean =>
   !isBefore(toDate(date1), toDate(date2));
+
+export const getElapsedPercentage = (
+  startDate: DateInput,
+  endDate?: DateInput | null,
+): number => {
+  if (!endDate) return 0;
+
+  const start = toDate(startDate);
+  const end = toDate(endDate);
+  end.setHours(23, 59, 59, 999);
+  const now = new Date();
+
+  // Si ya llegó o pasó la fecha fin
+  if (now >= end) {
+    return 100;
+  }
+
+  // Si aún no empezó
+  if (now <= start) {
+    return 0;
+  }
+
+  const totalMs = differenceInMilliseconds(end, start);
+  const elapsedMs = differenceInMilliseconds(now, start);
+
+  return Math.round((elapsedMs / totalMs) * 100);
+};

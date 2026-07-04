@@ -11,4 +11,6 @@ export interface ChampionshipResponse {
   dateInit: string | null;
   dateEnd: string | null;
   totalTeams: number;
+  tags: string[];
+  progress: number;
 }

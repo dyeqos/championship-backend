@@ -40,7 +40,10 @@ export class TeamService {
         teamUser: userEntity,
         championship: championshipEntity,
       }).save();
-      return teamEntity;
+      return this.teamModel
+        .findById(teamEntity.id)
+        .populate('teamUser championship')
+        .exec();
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error al registrar el equipo');
@@ -48,13 +51,19 @@ export class TeamService {
   }
 
   async findAll() {
-    const teams = await this.teamModel.find().exec();
+    const teams = await this.teamModel
+      .find()
+      .populate('teamUser championship')
+      .exec();
     return teams;
   }
 
   async findTeamsByChampionship(championshipId: string) {
     const championship = new Types.ObjectId(championshipId);
-    const teams = await this.teamModel.find({ championship }).exec();
+    const teams = await this.teamModel
+      .find({ championship })
+      .populate('teamUser championship')
+      .exec();
     return teams;
   }
 
