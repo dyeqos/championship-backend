@@ -7,7 +7,7 @@ export class ParameterMapper {
     return {
       description: parameter.description,
       domain: parameter.domain,
-      id: parameter._id as string,
+      id: parameter._id as unknown as string,
       name: parameter.name,
       isActive: parameter.isActive ?? false,
     };

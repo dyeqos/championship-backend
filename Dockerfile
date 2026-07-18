@@ -1,30 +1,34 @@
-# Install dependencies only when needed
-FROM node:lts-alpine3.22 AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+# syntax=docker/dockerfile:1.7
+
+FROM node:24-alpine AS builder
+
 RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json package-lock.json ./
-#Instala dependencias exactamente como en package-lock.json (ideal para producción y CI/CD).
-RUN npm ci --frozen-lockfile
 
-# Build the app with cache dependencies
-FROM node:lts-alpine3.22 AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+RUN corepack enable
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile
+
 COPY . .
-RUN npm run build
 
+RUN pnpm run build
 
-# Production image, copy all the files and run next
-FROM node:lts-alpine3.22 AS runner
+RUN pnpm prune --prod
 
-# Set working directory
+FROM node:24-alpine
+
+ENV NODE_ENV=production
+
 WORKDIR /usr/src/app
 
-COPY package.json package-lock.json ./
-
-RUN npm ci --prod
-
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json .
 COPY --from=builder /app/dist ./dist
 
-CMD [ "node","dist/main" ]
+EXPOSE 3000
+
+CMD ["node", "dist/main"]

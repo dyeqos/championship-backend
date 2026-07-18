@@ -6,7 +6,7 @@ export class UserMapper {
   static userToResponse(user: User): UserResponse {
     const birthdate = user.person?.birthdate;
     return {
-      id: user._id as string,
+      id: user._id as unknown as string,
       fullName: user.person
         ? [
             user.person.firstName,

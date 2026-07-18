@@ -26,7 +26,7 @@ export class ChampionshipMapper {
       state,
     } = championship;
     return {
-      id: _id as string,
+      id: _id as unknown as string,
       category: ParameterMapper.paramToResponse(category),
       dateEnd: dateToString(dateEnd),
       dateInit: dateToString(dateInit),

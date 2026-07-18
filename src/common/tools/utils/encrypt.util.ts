@@ -1,4 +1,5 @@
-import { hashSync, compareSync } from 'bcrypt';
+// import { hashSync, compareSync } from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 /**
  * Encriptar password para guardar en DB
@@ -6,7 +7,7 @@ import { hashSync, compareSync } from 'bcrypt';
  * @returns password encriptado
  */
 export const encryptPassword = (password: string): string => {
-  return hashSync(password, 10);
+  return bcrypt.hashSync(password, 10);
 };
 
 /**
@@ -19,5 +20,5 @@ export const isValidPassword = (
   password: string,
   passwordEncrypted: string,
 ): boolean => {
-  return compareSync(password, passwordEncrypted);
+  return bcrypt.compareSync(password, passwordEncrypted);
 };

@@ -1,25 +1,32 @@
 services:
   nest-app:
-    depends_on:
-      - mongo-db
     build:
       context: .
       dockerfile: Dockerfile
+
     image: championship-docker
     container_name: championship-docker
-    restart: always # reiniciar el contenedor si se detiene
+
+    restart: unless-stopped # reiniciar el contenedor si se detiene
+
+    depends_on:
+      mongo-db:
+        condition: service_healthy
+
     ports:
       - '${PORT}:${PORT}'
+
     environment:
-      MONGO_DB: ${MONGO_DB}
-      NAME_DB: ${NAME_DB}
+      NODE_ENV: production
       PORT: ${PORT}
       JWT_SECRET: ${JWT_SECRET}
+      MONGO_DB: ${MONGO_DB}
+      NAME_DB: ${NAME_DB}
 
   mongo-db:
-    image: mongo:6.0.26-jammy
+    image: mongo:8
     container_name: mongo-championship
-    restart: always
+    restart: unless-stopped
     ports:
       - 27017:27017
     environment:
@@ -27,4 +34,12 @@ services:
       MONGO_INITDB_ROOT_USERNAME: dcalvi
       MONGO_INITDB_ROOT_PASSWORD: 123456
     volumes:
-      - ./mongo:/data/db
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:
