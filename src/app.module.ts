@@ -8,9 +8,10 @@ import { PlayersModule } from './players/players.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TeamModule } from './team/team.module';
+import { PersonsModule } from './persons/persons.module';
+import { AdminModule } from './admin/admin.module';
 import { envConfiguration } from './common/config/env.config';
 import { JoiValidationSchema } from './common/tools/validations/joi.validation';
-import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AdminModule } from './admin/admin.module';
     AuthModule,
     TeamModule,
     AdminModule,
+    PersonsModule,
   ],
 })
 export class AppModule {}

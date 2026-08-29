@@ -1,8 +1,8 @@
 services:
   mongo-db:
-    image: mongo:6.0.26-jammy
-    container_name: mongo_db
-    restart: always
+    image: mongo:8
+    container_name: mongo-championship
+    restart: unless-stopped
     ports:
       - 127.0.0.1:27017:27017
     environment:
