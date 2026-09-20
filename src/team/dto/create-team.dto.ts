@@ -3,7 +3,6 @@ import {
   IsMongoId,
   IsNotEmpty,
   IsOptional,
-  IsNumber,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -16,8 +15,8 @@ export class CreateTeamDto {
   name!: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  numberIdentifier!: number;
+  @IsMongoId()
+  personId!: string;
 
   @IsNotEmpty()
   @IsMongoId()
