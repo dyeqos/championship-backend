@@ -24,15 +24,17 @@ export class TeamService {
   ) {}
 
   async create(createTeamDto: CreateTeamDto) {
-    const { championship, teamUser, ...teamData } = createTeamDto;
+    const { championshipId, numberIdentifier, ...teamData } = createTeamDto;
     const championshipEntity = await this.championshipModel
-      .findById(championship)
+      .findById(championshipId)
       .exec();
     if (!championshipEntity)
       throw new BadRequestException('El campeonato no existe');
     if (championshipEntity.state != ChampionshipState.DRAFT)
       throw new BadRequestException('El campeonato esta en curso o finalizado');
-    const userEntity = await this.userModel.findById(teamUser).exec();
+    const userEntity = await this.userModel
+      .findOne({ numberIdentifier })
+      .exec();
     if (!userEntity) throw new BadRequestException('El usuario no existe');
     try {
       const teamEntity = await new this.teamModel({

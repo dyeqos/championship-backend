@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { StateColumn } from 'src/common/decorators/state-column.decorator';
+import { Gender } from 'src/common/enums/gender.enum';
 import { State } from 'src/common/enums/state.enum';
 
 @Schema({ timestamps: true })
@@ -13,6 +14,8 @@ export class Person extends Document {
   secondLastName?: string;
   @Prop({ required: true, type: Date })
   birthdate!: Date;
+  @Prop({ required: true, enum: Gender })
+  gender!: Gender;
   @Prop({ required: true, unique: true, index: true })
   numberIdentifier!: number;
   @StateColumn()
