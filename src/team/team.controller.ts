@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TeamService } from './team.service';
+import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id/parse-mongo-id.pipe';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id/parse-mongo-id.pipe';
+import { FilterTeamDto } from './dto/filter-team.dto';
 
 @Controller('team')
 export class TeamController {
@@ -22,8 +24,8 @@ export class TeamController {
   }
 
   @Get()
-  findAll() {
-    return this.teamService.findAll();
+  findAll(@Query() params: FilterTeamDto) {
+    return this.teamService.findAll(params);
   }
 
   @Get('by/championship/:championshipId')

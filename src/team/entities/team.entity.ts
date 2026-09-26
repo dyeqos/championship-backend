@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { User } from '../../users/entities/user.entity';
 import { Championship } from '../../championship/entities/championship.entity';
 import { TeamState } from '../enums/team-state.enum';
 import { Parameter } from '../../parameters/entities/parameter.entity';
+import { Person } from 'src/persons/entities/person.entity';
 import { State } from '../../common/enums/state.enum';
 import { StateColumn } from '../../common/decorators/state-column.decorator';
 
@@ -11,8 +11,8 @@ import { StateColumn } from '../../common/decorators/state-column.decorator';
 export class Team extends Document {
   @Prop({ required: true })
   name!: string;
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  teamUser!: User;
+  @Prop({ type: Types.ObjectId, ref: Person.name, required: true })
+  teamUser!: Person;
   @Prop({
     type: Types.ObjectId,
     ref: Championship.name,
